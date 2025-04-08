@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hhs_sumup.controllers.InlogSchermController">
+   <AnchorPane prefHeight="10.0" prefWidth="600.0">
+      <Rectangle arcWidth="5.0" height="5.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
+   </AnchorPane>
+   <HBox prefHeight="390.0" prefWidth="668.0">
+      <AnchorPane prefHeight="200.0" prefWidth="182.0">
+         <Rectangle arcWidth="5.0" height="400.0" layoutY="-10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="180.0" />
+      </AnchorPane>
+      <AnchorPane prefHeight="390.0" prefWidth="263.0">
+         <TextField fx:id="student_email" layoutX="15.0" layoutY="125.0" prefHeight="25.0" prefWidth="250.0" />
+         <Text layoutX="15.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HHS email" />
+         <Text layoutX="15.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wachtwoord" />
+         <Text layoutX="15.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welkom bij HHS Sum-up!">
+            <font>
+               <Font name="System Bold" size="18.0" />
+            </font>
+         </Text>
+         <PasswordField fx:id="student_ww" layoutX="15.0" layoutY="195.0" prefHeight="25.0" prefWidth="250.0" />
+         <Button fx:id="zie_ww" layoutX="241.0" layoutY="199.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="19.0" text="Zie ww">
+            <font>
+               <Font size="4.0" />
+            </font>
+         </Button>
+         <Hyperlink fx:id="ww_vergeten" layoutX="173.0" layoutY="219.0" text="Wachtwoord vergeten?" textFill="#170fffab" underline="true">
+            <font>
+               <Font size="8.0" />
+            </font>
+         </Hyperlink>
+         <Button fx:id="inloggen" layoutX="106.0" layoutY="276.0" mnemonicParsing="false" text="Inloggen" />
+         <Text fx:id="Email_wachtwoord_verkeerd" fill="#d00000" layoutX="14.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-mail of wachtwoord is verkeerd">
+            <font>
+               <Font name="System Bold" size="12.0" />
+            </font>
+         </Text>
+         <Text fx:id="ww_vergeten_intevullen" fill="#bc0000" layoutX="15.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wachtwoord*" />
+         <Text fx:id="Email_vergeten_intevullen" fill="#bc0000" layoutX="15.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HHS email*" />
+         <Hyperlink fx:id="registreren" layoutX="40.0" layoutY="300.0" text="Nog geen account? Registreer hier!" textFill="#170fffab" underline="true" />
+         <Text fx:id="Email_wachtwoord_vergeten" fill="#d00000" layoutX="15.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-mail of wachtwoord vergeten">
+            <font>
+               <Font name="System Bold" size="12.0" />
+            </font>
+         </Text>
+      </AnchorPane>
+      <AnchorPane prefHeight="390.0" prefWidth="154.0">
+         <Rectangle arcWidth="5.0" height="390.0" layoutX="149.0" stroke="BLACK" strokeType="INSIDE" width="5.0" />
+      </AnchorPane>
+   </HBox>
+   <AnchorPane prefHeight="10.0" prefWidth="600.0">
+      <Rectangle arcWidth="5.0" height="5.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
+   </AnchorPane>
+</VBox>
