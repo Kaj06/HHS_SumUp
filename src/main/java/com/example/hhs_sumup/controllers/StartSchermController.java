@@ -15,6 +15,7 @@ public class StartSchermController {
     public TextField zoek_balk;
     public ListView notificaties_lijst;
     public ListView zoek_lijst;
+    public Button voeg_studiestof_toe;
 
     public void initialize() {
         notificaties_lijst.setVisible(false);
@@ -28,6 +29,7 @@ public class StartSchermController {
         notificaties_knop.setOnAction(event -> onNotificatiesKnop());
         account_knop.setOnAction(event -> goToAccountWindow());
         zoek_balk.setOnAction(event -> onZoeken());
+        voeg_studiestof_toe.setOnAction(event -> goToStudiestofMakenScherm());
     }
 
     public void onZoeken() {
@@ -42,6 +44,12 @@ public class StartSchermController {
         Stage stage = (Stage) welkom_tekst.getScene().getWindow();
         Model.getInstance().getViewFactory().closeWindow(stage);
         Model.getInstance().getViewFactory().showAccountWindow();
+    }
+
+    public void goToStudiestofMakenScherm() {
+        Stage stage = (Stage) voeg_studiestof_toe.getScene().getWindow();
+        Model.getInstance().getViewFactory().closeWindow(stage);
+        Model.getInstance().getViewFactory().showStudiestofMakenWindow();
     }
 }
 

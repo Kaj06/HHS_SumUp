@@ -2,6 +2,7 @@ package com.example.hhs_sumup.controllers;
 
 import com.example.hhs_sumup.Database.DatabaseConnection;
 import com.example.hhs_sumup.models.Model;
+import com.example.hhs_sumup.models.Student;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
@@ -34,7 +35,7 @@ public class RegistratieSchermController {
 
         terug_naar_inloggen.setOnAction(event -> terugnaarInloggen());
         registreren.setOnAction(event -> handleRegistration());
-        loadStudies(); // Load studies into the ChoiceBox
+        loadStudies();
     }
 
     private void loadStudies() {
@@ -80,7 +81,29 @@ public class RegistratieSchermController {
 
         saveUser(name, email, password, selectedStudy);
 
+        setLoggedInUser(email);
+
         goToStartWindow();
+    }
+
+    private void setLoggedInUser(String email) {
+        String query = "SELECT * FROM student WHERE s_hhsemail = ?";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                Model.getInstance().setLoggedInUser(new Student(
+                        resultSet.getInt("student_id"),
+                        resultSet.getString("s_naam"),
+                        resultSet.getString("s_hhsemail"),
+                        resultSet.getString("s_wachtwoord"),
+                        resultSet.getString("s_st_id")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void saveUser(String name, String email, String password, String studyName) {

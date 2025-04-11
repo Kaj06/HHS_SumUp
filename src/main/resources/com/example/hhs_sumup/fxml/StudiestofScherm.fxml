@@ -1,39 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hhs_sumup.controllers.StartSchermController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hhs_sumup.controllers.StudiestofSchermController">
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="1280.0">
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Button fx:id="account_knop" layoutX="1157.0" layoutY="6.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="82.0" text="Account" />
-            <Button fx:id="notificaties_knop" layoutX="1029.0" layoutY="6.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="82.0" text="notificaties" />
+            <Rectangle arcHeight="5.0" height="720.0" stroke="BLACK" strokeType="INSIDE" width="185.0" />
          </children>
       </AnchorPane>
-      <AnchorPane prefHeight="636.0" prefWidth="1280.0">
+      <AnchorPane prefHeight="720.0" prefWidth="1113.0">
          <children>
-            <Rectangle height="404.0" layoutY="64.0" stroke="BLACK" strokeType="INSIDE" width="1280.0" />
-            <Label fx:id="welkom_tekst" layoutX="455.0" layoutY="179.0" text="Welkom bij SumUp, naam!" textFill="WHITE">
+            <Text fx:id="studiestof_naam" layoutX="54.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="StudieStof naam" textAlignment="CENTER" wrappingWidth="796.0">
                <font>
-                  <Font name="Arial Black" size="26.0" />
+                  <Font name="Arial Black" size="20.0" />
                </font>
-            </Label>
-            <TextField fx:id="zoek_balk" layoutX="255.0" layoutY="244.0" prefHeight="25.0" prefWidth="774.0" promptText="Zoek je studiestof hier!">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </TextField>
-            <ListView fx:id="notificaties_lijst" layoutX="761.0" layoutY="-11.0" prefHeight="210.0" prefWidth="350.0" />
-            <ListView fx:id="zoek_lijst" layoutX="255.0" layoutY="288.0" prefHeight="200.0" prefWidth="774.0" />
+            </Text>
+            <Button fx:id="auteur_account" layoutX="286.0" layoutY="102.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="333.0" text="auteur naam" />
+            <TextArea fx:id="studiestof" editable="false" layoutX="59.0" layoutY="169.0" prefHeight="456.0" prefWidth="796.0" />
+            <Button fx:id="terug_naar_start" layoutX="409.0" layoutY="681.0" mnemonicParsing="false" text="Terug naar start" />
+            <Button fx:id="tags" layoutX="437.0" layoutY="137.0" mnemonicParsing="false" text="Tags" />
+            <ListView fx:id="tags_list" layoutX="354.0" layoutY="162.0" prefHeight="344.0" prefWidth="207.0" />
+            <Button fx:id="feedback_plaatsen" layoutX="402.0" layoutY="284.0" mnemonicParsing="false" text="Feedback plaatsen" />
+            <Button fx:id="feedback_zien" layoutX="413.0" layoutY="639.0" mnemonicParsing="false" text="Feedback zien" />
+            <ListView fx:id="feedback_lijst" layoutX="162.0" layoutY="309.0" prefHeight="330.0" prefWidth="586.0" />
+            <TextArea fx:id="feedback_tf_plaatsen" layoutX="203.0" layoutY="283.0" prefHeight="226.0" prefWidth="508.0" promptText="Plaats hier je feedback!" />
+            <Button fx:id="feedback_plaatsen1" layoutX="402.0" layoutY="509.0" mnemonicParsing="false" text="Feedback plaatsen" />
          </children>
       </AnchorPane>
-      <AnchorPane prefHeight="200.0" prefWidth="1280.0" />
+      <AnchorPane prefHeight="720.0" prefWidth="166.0">
+         <children>
+            <Rectangle arcHeight="5.0" height="720.0" layoutX="7.0" stroke="BLACK" strokeType="INSIDE" width="185.0" />
+         </children>
+      </AnchorPane>
    </children>
-</VBox>
+</HBox>

@@ -15,6 +15,7 @@
          <children>
             <Button fx:id="account_knop" layoutX="1157.0" layoutY="6.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="82.0" text="Account" />
             <Button fx:id="notificaties_knop" layoutX="1029.0" layoutY="6.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="82.0" text="notificaties" />
+            <Button fx:id="voeg_studiestof_toe" layoutX="554.0" layoutY="6.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="173.0" text="Voeg studiestof toe" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="636.0" prefWidth="1280.0">
