@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -16,37 +17,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class InlogSchermController {
-    @FXML
-    private TextField student_email;
+    public TextField student_email;
+    public PasswordField student_ww;
+    public Hyperlink ww_vergeten;
+    public Button inloggen;
+    public Text Email_wachtwoord_verkeerd;
+    public Text ww_vergeten_intevullen;
+    public Text Email_vergeten_intevullen;
+    public Text Email_wachtwoord_vergeten;
+    public Hyperlink registreren;
 
-    @FXML
-    private PasswordField student_ww;
 
-    @FXML
-    private Button zie_ww;
-
-    @FXML
-    private Hyperlink ww_vergeten;
-
-    @FXML
-    private Button inloggen;
-
-    @FXML
-    private Text Email_wachtwoord_verkeerd;
-
-    @FXML
-    private Text ww_vergeten_intevullen;
-
-    @FXML
-    private Text Email_vergeten_intevullen;
-
-    @FXML
-    private Text Email_wachtwoord_vergeten;
-
-    @FXML
-    private Hyperlink registreren;
-
-    @FXML
     public void initialize() {
         ww_vergeten_intevullen.setVisible(false);
         Email_vergeten_intevullen.setVisible(false);
@@ -61,6 +42,10 @@ public class InlogSchermController {
         String email = student_email.getText();
         String password = student_ww.getText();
 
+        Email_vergeten_intevullen.setVisible(false);
+        ww_vergeten_intevullen.setVisible(false);
+        Email_wachtwoord_verkeerd.setVisible(false);
+
         if (email.isEmpty() || password.isEmpty()) {
             Email_vergeten_intevullen.setVisible(email.isEmpty());
             ww_vergeten_intevullen.setVisible(password.isEmpty());
@@ -69,7 +54,7 @@ public class InlogSchermController {
 
         if (isUserExists(email)) {
             if (isPasswordCorrect(email, password)) {
-                // Proceed with login
+                goToStartWindow();
             } else {
                 Email_wachtwoord_verkeerd.setVisible(true);
             }
@@ -112,5 +97,11 @@ public class InlogSchermController {
         Stage stage = (Stage) student_email.getScene().getWindow();
         Model.getInstance().getViewFactory().closeWindow(stage);
         Model.getInstance().getViewFactory().showRegistratieWindow();
+    }
+
+    private void goToStartWindow() {
+        Stage stage = (Stage) inloggen.getScene().getWindow();
+        Model.getInstance().getViewFactory().closeWindow(stage);
+        Model.getInstance().getViewFactory().showStartWindow();
     }
 }

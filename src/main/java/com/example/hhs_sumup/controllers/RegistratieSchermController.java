@@ -1,9 +1,11 @@
 package com.example.hhs_sumup.controllers;
 
 import com.example.hhs_sumup.Database.DatabaseConnection;
+import com.example.hhs_sumup.models.Model;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,18 +15,27 @@ import java.sql.SQLException;
 public class RegistratieSchermController {
     public Hyperlink terug_naar_inloggen;
     public ChoiceBox studie_kiezen;
-    public Button zie_ww_herhalen;
     public Text niet_hhs_email;
     public TextField student_achternaam;
     public TextField student_voornaam;
-    public Button zie_ww;
     public Text wachtwoord_niet_gelijk;
     public Text Email_wachtwoord_vergeten;
-    @FXML
-    private TextField student_email;
+    public TextField student_email;
     public PasswordField student_ww;
     public PasswordField student_ww_herhalen;
     public Button registreren;
+
+
+    @FXML
+    public void initialize() {
+        niet_hhs_email.setVisible(false);
+        wachtwoord_niet_gelijk.setVisible(false);
+        Email_wachtwoord_vergeten.setVisible(false);
+
+        terug_naar_inloggen.setOnAction(event -> terugnaarInloggen());
+        registreren.setOnAction(event -> handleRegistration());
+        loadStudies(); // Load studies into the ChoiceBox
+    }
 
     private void loadStudies() {
         String query = "SELECT st_naam FROM studie";
@@ -39,16 +50,6 @@ public class RegistratieSchermController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    public void initialize() {
-        niet_hhs_email.setVisible(false);
-        wachtwoord_niet_gelijk.setVisible(false);
-        Email_wachtwoord_vergeten.setVisible(false);
-
-        registreren.setOnAction(event -> handleRegistration());
-        loadStudies(); // Load studies into the ChoiceBox
     }
 
     private void handleRegistration() {
@@ -78,6 +79,8 @@ public class RegistratieSchermController {
         }
 
         saveUser(name, email, password, selectedStudy);
+
+        goToStartWindow();
     }
 
     private void saveUser(String name, String email, String password, String studyName) {
@@ -97,5 +100,17 @@ public class RegistratieSchermController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void terugnaarInloggen() {
+        Stage stage = (Stage) student_email.getScene().getWindow();
+        Model.getInstance().getViewFactory().closeWindow(stage);
+        Model.getInstance().getViewFactory().showInlogWindow();
+    }
+
+    private void goToStartWindow() {
+        Stage stage = (Stage) registreren.getScene().getWindow();
+        Model.getInstance().getViewFactory().closeWindow(stage);
+        Model.getInstance().getViewFactory().showStartWindow();
     }
 }
