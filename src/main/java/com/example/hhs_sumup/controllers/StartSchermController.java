@@ -1,9 +1,12 @@
 package com.example.hhs_sumup.controllers;
 
+import com.example.hhs_sumup.models.Model;
+import com.example.hhs_sumup.models.Student;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class StartSchermController {
     public Button account_knop;
@@ -17,12 +20,28 @@ public class StartSchermController {
         notificaties_lijst.setVisible(false);
         zoek_lijst.setVisible(false);
 
+        Student loggedInStudent = Model.getInstance().getLoggedInUser();
+        String fullName = loggedInStudent.getS_naam();
+        String firstName = fullName.split(" ")[0];
+        welkom_tekst.setText("Welkom bij SumUp, " + firstName + "!");
 
+        notificaties_knop.setOnAction(event -> onNotificatiesKnop());
+        account_knop.setOnAction(event -> goToAccountWindow());
+        zoek_balk.setOnAction(event -> onZoeken());
     }
 
-    public void zoek_lijst() {
-        zoek_lijst.setVisible(true);
-        notificaties_lijst.setVisible(false);
+    public void onZoeken() {
+        zoek_lijst.setVisible(!zoek_lijst.isVisible());
+    }
+
+    public void onNotificatiesKnop() {
+        notificaties_lijst.setVisible(!notificaties_lijst.isVisible());
+    }
+
+    private void goToAccountWindow() {
+        Stage stage = (Stage) welkom_tekst.getScene().getWindow();
+        Model.getInstance().getViewFactory().closeWindow(stage);
+        Model.getInstance().getViewFactory().showAccountWindow();
     }
 }
 

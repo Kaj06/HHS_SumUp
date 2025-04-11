@@ -48,6 +48,32 @@ public class ViewFactory {
         }
     }
 
+    public void showAccountWindow() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hhs_sumup/fxml/AccountScherm.fxml"));
+        try {
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Account Scherm");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showAndereStudentWindow() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hhs_sumup/fxml/AndereStudentScherm.fxml"));
+        try {
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void closeWindow(Stage stage) {
         if (stage != null) {
             stage.close();
