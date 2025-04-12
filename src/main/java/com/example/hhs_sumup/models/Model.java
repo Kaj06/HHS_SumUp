@@ -7,6 +7,7 @@ public class Model {
     private static Model instance;
     private ViewFactory viewFactory;
     private Student loggedInUser;
+    private int selectedStudieStofId;
 
     private Model() {
         viewFactory = new ViewFactory();
@@ -17,6 +18,14 @@ public class Model {
             instance = new Model();
         }
         return instance;
+    }
+
+    public int getSelectedStudieStofId() {
+        return selectedStudieStofId;
+    }
+
+    public void setSelectedStudieStofId(int selectedStudieStofId) {
+        this.selectedStudieStofId = selectedStudieStofId;
     }
 
     public Student getLoggedInUser() {

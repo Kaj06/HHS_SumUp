@@ -26,8 +26,6 @@ public class RegistratieSchermController {
     public PasswordField student_ww_herhalen;
     public Button registreren;
 
-
-    @FXML
     public void initialize() {
         niet_hhs_email.setVisible(false);
         wachtwoord_niet_gelijk.setVisible(false);

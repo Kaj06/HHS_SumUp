@@ -2,7 +2,6 @@ package com.example.hhs_sumup.controllers;
 
 import com.example.hhs_sumup.Database.DatabaseConnection;
 import com.example.hhs_sumup.models.Model;
-import com.example.hhs_sumup.models.Student;
 import com.example.hhs_sumup.models.Studiestof;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,6 +10,7 @@ import javafx.stage.Stage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,7 +30,7 @@ public class StudiestofMakenSchermController {
         voeg_tag_toe.setOnAction(event -> addTagToDatabase());
         plaats_studiestof.setOnAction(event -> saveStudiestofAndTagsToDatabase());
 
-        ObservableList<String> tags = FXCollections.observableArrayList();
+        ObservableList<String> tags = FXCollections.observableArrayList(getAllTagsFromDatabase());
         tags_list.setItems(tags);
         setupTagsListCellFactory();
 
@@ -78,19 +78,24 @@ public class StudiestofMakenSchermController {
     }
 
     private void saveStudiestofToDatabase() {
-        String query = "INSERT INTO studiestof (studiestof_id, ss_titel, ss_inhoud, ss_auteur_id, ss_datum) VALUES (?, ?, ?, ?, ?) "
+        String query = "INSERT INTO studiestof (ss_titel, ss_inhoud, ss_auteur_id, ss_datum) VALUES (?, ?, ?, ?) "
                 + "ON DUPLICATE KEY UPDATE ss_titel = VALUES(ss_titel), ss_inhoud = VALUES(ss_inhoud), ss_auteur_id = VALUES(ss_auteur_id), ss_datum = VALUES(ss_datum)";
         try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             currentStudiestof.setNaam(studiestof_naam.getText().trim());
             currentStudiestof.setInhoud(studiestof.getText().trim());
-            statement.setInt(1, currentStudiestof.getSs_id());
-            statement.setString(2, currentStudiestof.getNaam());
-            statement.setString(3, currentStudiestof.getInhoud());
-            statement.setInt(4, Model.getInstance().getLoggedInUser().getStudent_id());
-            statement.setDate(5, java.sql.Date.valueOf(java.time.LocalDate.now()));
+            statement.setString(1, currentStudiestof.getNaam());
+            statement.setString(2, currentStudiestof.getInhoud());
+            statement.setInt(3, Model.getInstance().getLoggedInUser().getStudent_id());
+            statement.setDate(4, java.sql.Date.valueOf(java.time.LocalDate.now()));
             statement.executeUpdate();
+
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    currentStudiestof.setSs_id(generatedKeys.getInt(1));
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -164,6 +169,21 @@ public class StudiestofMakenSchermController {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    private ObservableList<String> getAllTagsFromDatabase() {
+        ObservableList<String> tags = FXCollections.observableArrayList();
+        String query = "SELECT t_naam FROM tag";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                tags.add(resultSet.getString("t_naam"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tags;
     }
 
     private void goToStartWindow() {

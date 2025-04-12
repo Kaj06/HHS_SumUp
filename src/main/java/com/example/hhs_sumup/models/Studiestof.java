@@ -4,13 +4,13 @@ public class Studiestof {
     private int ss_id;
     private String naam;
     private String inhoud;
-    private int student_id;
+    private int auteur_id;
 
-    public Studiestof(int ss_id, String naam, String inhoud, int student_id) {
+    public Studiestof(int ss_id, String naam, String inhoud, int auteur_id) {
         this.ss_id = ss_id;
         this.naam = naam;
         this.inhoud = inhoud;
-        this.student_id = student_id;
+        this.auteur_id = auteur_id;
     }
 
     public Studiestof() {
@@ -40,11 +40,11 @@ public class Studiestof {
         this.inhoud = inhoud;
     }
 
-    public int getStudent_id() {
-        return student_id;
+    public int getAuteur_id() {
+        return auteur_id;
     }
 
-    public void setStudent_id(int student_id) {
-        this.student_id = student_id;
+    public void setAuteur_id(int auteur_id) {
+        this.auteur_id = auteur_id;
     }
 }
