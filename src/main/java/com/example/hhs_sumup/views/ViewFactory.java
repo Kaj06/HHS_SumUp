@@ -1,5 +1,8 @@
 package com.example.hhs_sumup.views;
 
+import com.example.hhs_sumup.controllers.AndereStudentSchermController;
+import com.example.hhs_sumup.controllers.StudiestofSchermController;
+import com.example.hhs_sumup.models.Studiestof;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -61,26 +64,33 @@ public class ViewFactory {
         }
     }
 
-    public void showAndereStudentWindow() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hhs_sumup/fxml/AndereStudentScherm.fxml"));
+    public void showAndereStudentWindow(int auteurId) {
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hhs_sumup/fxml/AndereStudentScherm.fxml"));
             Parent root = loader.load();
+
+            AndereStudentSchermController controller = loader.getController();
+            controller.setAuteurId(auteurId);
+
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.setTitle("");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void showStudiestofWindow() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hhs_sumup/fxml/StudiestofScherm.fxml"));
+    public void showStudiestofWindow(String selectedTitle) {
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hhs_sumup/fxml/StudiestofScherm.fxml"));
             Parent root = loader.load();
+
+            StudiestofSchermController controller = loader.getController();
+            Studiestof studiestof = Studiestof.fetchByTitle(selectedTitle); // Use the static method
+            controller.setStudiestof(studiestof);
+
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.setTitle("Studiestof Scherm");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

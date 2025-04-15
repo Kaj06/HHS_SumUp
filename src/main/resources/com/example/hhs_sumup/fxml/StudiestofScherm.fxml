@@ -24,7 +24,7 @@
                </font>
             </Text>
             <Button fx:id="auteur_account" layoutX="286.0" layoutY="102.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="333.0" text="auteur naam" />
-            <TextArea fx:id="studiestof" editable="false" layoutX="59.0" layoutY="169.0" prefHeight="456.0" prefWidth="796.0" />
+            <TextArea fx:id="tf_studiestof" editable="false" layoutX="59.0" layoutY="169.0" prefHeight="456.0" prefWidth="796.0" />
             <Button fx:id="terug_naar_start" layoutX="409.0" layoutY="681.0" mnemonicParsing="false" text="Terug naar start" />
             <Button fx:id="tags" layoutX="437.0" layoutY="137.0" mnemonicParsing="false" text="Tags" />
             <ListView fx:id="tags_list" layoutX="354.0" layoutY="162.0" prefHeight="344.0" prefWidth="207.0" />

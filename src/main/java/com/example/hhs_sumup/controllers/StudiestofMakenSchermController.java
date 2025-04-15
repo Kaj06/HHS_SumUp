@@ -17,9 +17,13 @@ import java.util.Set;
 
 public class StudiestofMakenSchermController {
     public TextArea studiestof;
-    public Button terug_naar_start, tags, voeg_tag_toe, plaats_studiestof;
+    public Button terug_naar_start;
+    public Button tags;
+    public Button voeg_tag_toe;
+    public Button plaats_studiestof;
     public ListView<String> tags_list;
-    public TextField studiestof_naam, tf_tag_toevoegen;
+    public TextField studiestof_naam;
+    public TextField tf_tag_toevoegen;
 
     private Studiestof currentStudiestof;
     private final Set<String> selectedTags = new HashSet<>();

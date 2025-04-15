@@ -20,7 +20,6 @@ import java.util.List;
 public class StudiestofSchermController {
     public Text studiestof_naam;
     public Button auteur_account;
-    public TextArea studiestof;
     public Button terug_naar_start;
     public Button tags;
     public ListView<String> tags_list;
@@ -29,6 +28,9 @@ public class StudiestofSchermController {
     public ListView<String> feedback_lijst;
     public TextArea feedback_tf_plaatsen;
     public Button feedback_plaatsen1;
+    public TextArea tf_studiestof;
+
+    private Studiestof studiestof;
 
     public void initialize() {
         tags_list.setVisible(false);
@@ -37,24 +39,16 @@ public class StudiestofSchermController {
         feedback_plaatsen1.setVisible(false);
         feedback_plaatsen.setVisible(false);
 
-        tags.setOnAction(event -> showTagsList());
-        feedback_zien.setOnAction(event -> showFeedbackList());
-        feedback_plaatsen.setOnAction(event -> showFeedbackTextField());
+        tags.setOnAction(event -> toggleVisibility(tags_list));
+        feedback_zien.setOnAction(event -> toggleFeedbackVisibility());
+        feedback_plaatsen.setOnAction(event -> toggleVisibility(feedback_tf_plaatsen, feedback_plaatsen1));
         terug_naar_start.setOnAction(event -> goToStartWindow());
-        auteur_account.setOnAction(event -> goToAnderStudent());
 
         int studiestofId = Model.getInstance().getSelectedStudieStofId();
-        Studiestof studiestof = getStudiestofFromDatabase(studiestofId);
-        if (studiestof != null) {
-            studiestof_naam.setText(studiestof.getNaam());
-            this.studiestof.setText(studiestof.getInhoud());
-            List<Tag> tags = getTagsForStudiestof(studiestofId);
-            for (Tag tag : tags) {
-                tags_list.getItems().add(tag.getT_naam());
-            }
+        this.studiestof = getStudiestofFromDatabase(studiestofId);
+        if (this.studiestof != null) {
+            updateUIWithStudiestofData();
         }
-        setAuteurAccountText(studiestof.getAuteur_id());
-
     }
 
     private Studiestof getStudiestofFromDatabase(int studiestofId) {
@@ -64,11 +58,12 @@ public class StudiestofSchermController {
             statement.setInt(1, studiestofId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                int id = resultSet.getInt("studiestof_id");
-                String naam = resultSet.getString("ss_titel");
-                String inhoud = resultSet.getString("ss_inhoud");
-                int auteurId = resultSet.getInt("ss_auteur_id");
-                return new Studiestof(id, naam, inhoud, auteurId);
+                return new Studiestof(
+                    resultSet.getInt("studiestof_id"),
+                    resultSet.getString("ss_titel"),
+                    resultSet.getString("ss_inhoud"),
+                    resultSet.getInt("ss_auteur_id")
+                );
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,16 +72,14 @@ public class StudiestofSchermController {
     }
 
     private List<Tag> getTagsForStudiestof(int studiestofId) {
-        String query = "SELECT t.tag_id, t.t_naam FROM tag t JOIN studiestoftag st ON t.tag_id = st.sst_tag_id WHERE st.sst_studiestof_id = ?";
+        String query = "SELECT t.t_naam FROM tag t JOIN studiestoftag st ON t.tag_id = st.sst_tag_id WHERE st.sst_studiestof_id = ?";
         List<Tag> tags = new ArrayList<>();
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, studiestofId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                int id = resultSet.getInt("tag_id");
-                String naam = resultSet.getString("t_naam");
-                tags.add(new Tag(id, naam));
+                tags.add(new Tag(0, resultSet.getString("t_naam")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -94,22 +87,21 @@ public class StudiestofSchermController {
         return tags;
     }
 
-    public void showTagsList() {
-        tags_list.setVisible(!tags_list.isVisible());
-    }
-
-    public void showFeedbackList() {
-        feedback_lijst.setVisible(!feedback_lijst.isVisible());
-        feedback_plaatsen.setVisible(!feedback_plaatsen.isVisible());
-        if (feedback_tf_plaatsen.isVisible()) {
-            feedback_tf_plaatsen.setVisible(false);
-            feedback_plaatsen1.setVisible(false);
+    public void setStudiestof(Studiestof studiestof) {
+        this.studiestof = studiestof;
+        if (studiestof != null) {
+            updateUIWithStudiestofData();
         }
     }
 
-    public void showFeedbackTextField() {
-        feedback_tf_plaatsen.setVisible(!feedback_tf_plaatsen.isVisible());
-        feedback_plaatsen1.setVisible(!feedback_plaatsen1.isVisible());
+    private void updateUIWithStudiestofData() {
+        studiestof_naam.setText(studiestof.getNaam());
+        tf_studiestof.setText(studiestof.getInhoud());
+        setAuteurAccountText(studiestof.getAuteur_id());
+        tags_list.getItems().clear();
+        for (Tag tag : getTagsForStudiestof(studiestof.getSs_id())) {
+            tags_list.getItems().add(tag.getT_naam());
+        }
     }
 
     private void setAuteurAccountText(int auteurId) {
@@ -121,9 +113,28 @@ public class StudiestofSchermController {
             if (resultSet.next()) {
                 String auteurNaam = resultSet.getString("s_naam");
                 auteur_account.setText(auteurNaam);
+                auteur_account.setOnAction(event -> goToAnderStudent(auteurId));
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void toggleVisibility(ListView<String> listView) {
+        listView.setVisible(!listView.isVisible());
+    }
+
+    private void toggleVisibility(TextArea textArea, Button button) {
+        textArea.setVisible(!textArea.isVisible());
+        button.setVisible(!button.isVisible());
+    }
+
+    private void toggleFeedbackVisibility() {
+        feedback_lijst.setVisible(!feedback_lijst.isVisible());
+        feedback_plaatsen.setVisible(!feedback_plaatsen.isVisible());
+        if (feedback_tf_plaatsen.isVisible()) {
+            feedback_tf_plaatsen.setVisible(false);
+            feedback_plaatsen1.setVisible(false);
         }
     }
 
@@ -133,9 +144,9 @@ public class StudiestofSchermController {
         Model.getInstance().getViewFactory().showStartWindow();
     }
 
-    public void goToAnderStudent() {
+    public void goToAnderStudent(int auteurId) {
         Stage stage = (Stage) studiestof_naam.getScene().getWindow();
         Model.getInstance().getViewFactory().closeWindow(stage);
-        Model.getInstance().getViewFactory().showAndereStudentWindow();
+        Model.getInstance().getViewFactory().showAndereStudentWindow(auteurId);
     }
 }
