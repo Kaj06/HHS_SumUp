@@ -1,6 +1,7 @@
 package com.example.hhs_sumup.controllers;
 
 import com.example.hhs_sumup.Database.DatabaseConnection;
+import com.example.hhs_sumup.InterfaceController;
 import com.example.hhs_sumup.models.Model;
 import com.example.hhs_sumup.models.Student;
 import javafx.fxml.FXML;
@@ -13,7 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class RegistratieSchermController {
+public class RegistratieSchermController implements InterfaceController {
     public Hyperlink terug_naar_inloggen;
     public ChoiceBox studie_kiezen;
     public Text niet_hhs_email;

@@ -1,6 +1,7 @@
 package com.example.hhs_sumup.controllers;
 
 import com.example.hhs_sumup.Database.DatabaseConnection;
+import com.example.hhs_sumup.InterfaceController;
 import com.example.hhs_sumup.models.Model;
 import com.example.hhs_sumup.models.Studiestof;
 import javafx.collections.FXCollections;
@@ -15,7 +16,7 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class StudiestofMakenSchermController {
+public class StudiestofMakenSchermController implements InterfaceController {
     public TextArea studiestof;
     public Button terug_naar_start;
     public Button tags;

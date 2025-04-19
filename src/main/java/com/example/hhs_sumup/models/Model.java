@@ -1,6 +1,5 @@
 package com.example.hhs_sumup.models;
 
-import com.example.hhs_sumup.models.Student;
 import com.example.hhs_sumup.views.ViewFactory;
 
 public class Model {
@@ -32,11 +31,11 @@ public class Model {
         return loggedInUser;
     }
 
-    public ViewFactory getViewFactory() {
-        return viewFactory;
-    }
-
     public void setLoggedInUser(Student loggedInUser) {
         this.loggedInUser = loggedInUser;
+    }
+
+    public ViewFactory getViewFactory() {
+        return viewFactory;
     }
 }

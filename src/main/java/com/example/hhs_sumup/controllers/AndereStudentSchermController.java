@@ -1,6 +1,7 @@
 package com.example.hhs_sumup.controllers;
 
 import com.example.hhs_sumup.Database.DatabaseConnection;
+import com.example.hhs_sumup.InterfaceController;
 import com.example.hhs_sumup.models.Model;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,7 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AndereStudentSchermController {
+public class AndereStudentSchermController implements InterfaceController {
     public Label dit_is;
     public Label email_van_student;
     public Label email;
@@ -38,7 +39,7 @@ public class AndereStudentSchermController {
         loadStudentInfo(auteurId);
     }
 
-private void loadStudentInfo(int auteurId) {
+    private void loadStudentInfo(int auteurId) {
     String studentQuery = "SELECT s.s_naam, s.s_hhsemail FROM student s WHERE s.student_id = ?";
     String studiestofQuery = "SELECT ss_titel FROM studiestof WHERE ss_auteur_id = ?";
 
@@ -72,6 +73,7 @@ private void loadStudentInfo(int auteurId) {
         e.printStackTrace();
     }
 }
+
     private void goToStartWindow() {
         Stage stage = (Stage) email.getScene().getWindow();
         Model.getInstance().getViewFactory().closeWindow(stage);

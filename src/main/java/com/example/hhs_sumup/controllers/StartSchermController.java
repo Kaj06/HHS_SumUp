@@ -1,6 +1,7 @@
 package com.example.hhs_sumup.controllers;
 
 import com.example.hhs_sumup.Database.DatabaseConnection;
+import com.example.hhs_sumup.InterfaceController;
 import com.example.hhs_sumup.models.Model;
 import com.example.hhs_sumup.models.Student;
 import com.example.hhs_sumup.models.Studiestof;
@@ -21,7 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class StartSchermController {
+public class StartSchermController implements InterfaceController {
     public Button account_knop;
     public Button notificaties_knop;
     public Label welkom_tekst;

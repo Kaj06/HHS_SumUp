@@ -49,9 +49,6 @@ public class Studiestof {
         return auteur_id;
     }
 
-    public void setAuteur_id(int auteur_id) {
-        this.auteur_id = auteur_id;
-    }
     public static Studiestof fetchByTitle(String title) {
         String query = "SELECT studiestof_id, ss_titel, ss_inhoud, ss_auteur_id FROM studiestof WHERE ss_titel = ?";
         try (Connection connection = DatabaseConnection.getConnection();
