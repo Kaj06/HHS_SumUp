@@ -1,0 +1,236 @@
+@startuml
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class AccountSchermController {
+  + email: Label
+  + jouw_studiestof: ListView<String>
+  + check_wachtwoord: Button
+  + hallo_naam: Label
+  + verander_naam: Button
+  + terug_naar_start: Button
+  + cancel_btn1: Button
+  + cancel_btn: Button
+  + check_ww_label: Label
+  + verander_gegevens_anchor: AnchorPane
+  + verander_wachtwoord: Button
+  + wachtwoord_invullen: TextField
+  + naam: Label
+  + verander_gegevens: TextField
+  + checkwachtwoord: AnchorPane
+  + verwijder_studiestof: Button
+  + verander_email: Button
+  + verander_gegevens_btn: Button
+  - onVeranderEmail(): void
+  - deleteStudiestof(int): void
+  + cancelBtn(): void
+  - onVeranderNaam(): void
+  - goToStartWindow(): void
+  + initialize(): void
+  + onVeranderWachtwoord(): void
+  - loadUserStudiestof(int): void
+  + onVerwijderStudiestof(): void
+}
+class AndereStudentSchermController {
+  + studiestof_van_student: Text
+  + open_studiestof: Button
+  + email_van_student: Label
+  - auteurId: int
+  + studiestof: ListView<String>
+  + email: Label
+  + dit_is: Label
+  + terug_naar_start: Button
+  + setAuteurId(int): void
+  + initialize(): void
+  - openStudiestofWindow(String): void
+  - loadStudentInfo(int): void
+  - goToStartWindow(): void
+}
+class DatabaseConnection {
+  - DB_URL: String
+  - USERNAME: String
+  - PASSWORD: String
+  + getConnection(): Connection
+}
+class InlogSchermController {
+  + Email_wachtwoord_verkeerd: Text
+  + registreren: Hyperlink
+  + student_ww: PasswordField
+  + student_email: TextField
+  + ww_vergeten: Hyperlink
+  + inloggen: Button
+  + ww_vergeten_intevullen: Text
+  + Email_vergeten_intevullen: Text
+  + Email_wachtwoord_vergeten: Text
+  - openRegistratieScherm(): void
+  + initialize(): void
+  - isPasswordCorrect(String, String): boolean
+  - goToStartWindow(): void
+  - handleLogin(): void
+  - isUserExists(String): boolean
+}
+interface InterfaceController << interface >> {
+  + initialize(): void
+}
+class Model {
+  - instance: Model
+  - loggedInUser: Student
+  - selectedStudieStofId: int
+  - viewFactory: ViewFactory
+  + getViewFactory(): ViewFactory
+  + getLoggedInUser(): Student
+  + setLoggedInUser(Student): void
+  + getInstance(): Model
+  + setSelectedStudieStofId(int): void
+  + getSelectedStudieStofId(): int
+}
+class RegistratieSchermController {
+  + student_achternaam: TextField
+  + student_email: TextField
+  + terug_naar_inloggen: Hyperlink
+  + registreren: Button
+  + student_voornaam: TextField
+  + student_ww_herhalen: PasswordField
+  + studie_kiezen: ChoiceBox
+  + niet_hhs_email: Text
+  + student_ww: PasswordField
+  + wachtwoord_niet_gelijk: Text
+  + Email_wachtwoord_vergeten: Text
+  - loadStudies(): void
+  - saveUser(String, String, String, String): void
+  - terugnaarInloggen(): void
+  + initialize(): void
+  - goToStartWindow(): void
+  - setLoggedInUser(String): void
+  - handleRegistration(): void
+}
+class StartSchermController {
+  + zoek_balk: TextField
+  + notificaties_lijst: ListView<String>
+  + account_knop: Button
+  + voeg_studiestof_toe: Button
+  + welkom_tekst: Label
+  + notificaties_knop: Button
+  + zoek_lijst: ListView<String>
+  + onNotificatiesKnop(): void
+  - fetchStudiestofByTitle(String): Studiestof?
+  + showZoekLijst(): void
+  - goToAccountWindow(): void
+  + goToStudiestofMakenScherm(): void
+  + initialize(): void
+  + goToStudiestofScherm(String): void
+  - searchStudiestof(): void
+}
+class Student {
+  - student_id: int
+  - s_wachtwoord: String
+  - s_hhsemail: String
+  - s_st_id: String
+  - s_naam: String
+  + getStudent_id(): int
+  + getS_wachtwoord(): String
+  + getS_hhsemail(): String
+  + getS_naam(): String
+  + getS_st_id(): String
+}
+class Studiestof {
+  - ss_id: int
+  - auteur_id: int
+  - inhoud: String
+  - naam: String
+  + setSs_id(int): void
+  + setNaam(String): void
+  + getSs_id(): int
+  + setInhoud(String): void
+  + getNaam(): String
+  + getInhoud(): String
+  + getAuteur_id(): int
+  + fetchByTitle(String): Studiestof?
+}
+class StudiestofMakenSchermController {
+  + studiestof_naam: TextField
+  + voeg_tag_toe: Button
+  + plaats_studiestof: Button
+  + tags_list: ListView<String>
+  - currentStudiestof: Studiestof
+  + tags: Button
+  + tf_tag_toevoegen: TextField
+  + studiestof: TextArea
+  + terug_naar_start: Button
+  - selectedTags: Set<String>
+  - getTagIdFromDatabase(String): int
+  - saveStudiestofToDatabase(): void
+  - saveStudiestofAndTagsToDatabase(): void
+  - saveTagsToDatabase(): void
+  - toggleTagsListVisibility(): void
+  - addTagToDatabase(): void
+  - isStudiestofSaved(): boolean
+  - getAllTagsFromDatabase(): ObservableList<String>
+  - goToStartWindow(): void
+  + initialize(): void
+  - setupTagsListCellFactory(): void
+}
+class StudiestofSchermController {
+  + tags: Button
+  + feedback_plaatsen1: Button
+  + studiestof_naam: Text
+  + feedback_lijst: ListView<String>
+  + feedback_zien: Button
+  + tags_list: ListView<String>
+  + feedback_tf_plaatsen: TextArea
+  + auteur_account: Button
+  + tf_studiestof: TextArea
+  + feedback_plaatsen: Button
+  - studiestof: Studiestof
+  + terug_naar_start: Button
+  + initialize(): void
+  - getStudiestofFromDatabase(int): Studiestof?
+  - toggleFeedbackVisibility(): void
+  - sendFeedback(String): void
+  + goToStartWindow(): void
+  - getFeedbackForStudiestof(int): List<String>
+  - toggleVisibility(ListView<String>): void
+  - updateUIWithStudiestofData(): void
+  + setStudiestof(Studiestof): void
+  - setAuteurAccountText(int): void
+  - getTagsForStudiestof(int): List<Tag>
+  + goToAnderStudent(int): void
+  - updateFeedbackList(): void
+  - toggleVisibility(TextArea, Button): void
+}
+class Tag {
+  ~ t_naam: String
+  ~ tag_id: int
+  + getT_naam(): String
+}
+class ViewFactory {
+  + showStartWindow(): void
+  + showStudiestofMakenWindow(): void
+  + showInlogWindow(): void
+  + showStudiestofWindow(String): void
+  + showAccountWindow(): void
+  + showRegistratieWindow(): void
+  + closeWindow(Stage): void
+  + showAndereStudentWindow(int): void
+}
+
+AccountSchermController          -[#008200,dashed]-^  InterfaceController
+AndereStudentSchermController    -[#008200,dashed]-^  InterfaceController
+InlogSchermController            -[#008200,dashed]-^  InterfaceController
+InlogSchermController            -[#595959,dashed]->  Student                         : "creates Student"
+Model                           "1" *-[#595959,plain]-> "loggedInUser\n1" Student
+Model                            -[#595959,dashed]->  ViewFactory                     : "creates ViewFactory"
+Model                           "1" *-[#595959,plain]-> "viewFactory\n1" ViewFactory
+RegistratieSchermController      -[#008200,dashed]-^  InterfaceController
+RegistratieSchermController      -[#595959,dashed]->  Student                         : "registers Student"
+StartSchermController            -[#008200,dashed]-^  InterfaceController
+StartSchermController            -[#595959,dashed]->  Studiestof                      : "fetches Studiestof"
+StudiestofMakenSchermController  -[#008200,dashed]-^  InterfaceController
+StudiestofMakenSchermController "1" *-[#595959,plain]-> "currentStudiestof\n1" Studiestof
+StudiestofMakenSchermController  -[#595959,dashed]->  Studiestof                      : "creates Studiestof"
+StudiestofSchermController       -[#008200,dashed]-^  InterfaceController
+StudiestofSchermController      "1" *-[#595959,plain]-> "studiestof\n1" Studiestof
+StudiestofSchermController       -[#595959,dashed]->  Studiestof                      : "loads Studiestof"
+StudiestofSchermController       -[#595959,dashed]->  Tag                             : "fetches Tags"
+@enduml

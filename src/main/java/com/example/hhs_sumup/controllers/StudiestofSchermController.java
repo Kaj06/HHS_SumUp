@@ -34,6 +34,10 @@ public class StudiestofSchermController implements InterfaceController {
     private Studiestof studiestof;
 
     public void initialize() {
+        if (this.studiestof != null) {
+            updateUIWithStudiestofData();
+        }
+
         tags_list.setVisible(false);
         feedback_lijst.setVisible(false);
         feedback_tf_plaatsen.setVisible(false);
@@ -44,6 +48,12 @@ public class StudiestofSchermController implements InterfaceController {
         feedback_zien.setOnAction(event -> toggleFeedbackVisibility());
         feedback_plaatsen.setOnAction(event -> toggleVisibility(feedback_tf_plaatsen, feedback_plaatsen1));
         terug_naar_start.setOnAction(event -> goToStartWindow());
+        feedback_plaatsen1.setOnAction(event -> {
+            String feedbackText = feedback_tf_plaatsen.getText();
+            sendFeedback(feedbackText);
+            feedback_tf_plaatsen.clear();
+            updateFeedbackList();
+        });
 
         int studiestofId = Model.getInstance().getSelectedStudieStofId();
         this.studiestof = getStudiestofFromDatabase(studiestofId);
@@ -137,6 +147,52 @@ public class StudiestofSchermController implements InterfaceController {
             feedback_tf_plaatsen.setVisible(false);
             feedback_plaatsen1.setVisible(false);
         }
+    }
+
+    private void sendFeedback(String feedbackText) {
+        if (feedbackText == null || feedbackText.trim().isEmpty()) {
+            System.out.println("Feedback cannot be empty.");
+            return;
+        }
+
+        String query = "INSERT INTO feedback (f_inhoud, f_studiestof_id, f_student_id) VALUES (?, ?, ?)";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, feedbackText);
+            statement.setInt(2, studiestof.getSs_id());
+            statement.setInt(3, Model.getInstance().getLoggedInUser().getStudent_id());
+            statement.executeUpdate();
+            System.out.println("Feedback sent successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private List<String> getFeedbackForStudiestof(int studiestofId) {
+        String query = "SELECT s.s_naam, f.f_inhoud " +
+                "FROM feedback f " +
+                "JOIN student s ON f.f_student_id = s.student_id " +
+                "WHERE f.f_studiestof_id = ?";
+        List<String> feedbackList = new ArrayList<>();
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, studiestofId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String studentName = resultSet.getString("s_naam");
+                String feedbackContent = resultSet.getString("f_inhoud");
+                feedbackList.add(studentName + ": " + feedbackContent);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return feedbackList;
+    }
+
+    private void updateFeedbackList() {
+        feedback_lijst.getItems().clear();
+        List<String> feedback = getFeedbackForStudiestof(studiestof.getSs_id());
+        feedback_lijst.getItems().addAll(feedback);
     }
 
     public void goToStartWindow() {

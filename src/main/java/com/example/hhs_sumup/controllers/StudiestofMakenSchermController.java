@@ -144,7 +144,7 @@ public class StudiestofMakenSchermController implements InterfaceController {
 
     private void addTagToDatabase() {
         String tag = tf_tag_toevoegen.getText().trim();
-        if (!tag.isEmpty()) {
+        if (!tag.isEmpty() && getTagIdFromDatabase(tag) == -1) {
             String query = "INSERT INTO tag (t_naam) VALUES (?)";
             try (Connection connection = DatabaseConnection.getConnection();
                  PreparedStatement statement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
